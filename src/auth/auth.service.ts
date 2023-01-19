@@ -58,7 +58,11 @@ export class AuthService {
   // 引数でemailとpasswordをAuthのdtoとして受け取れるようにする
   async login(dto: AuthDto): Promise<Jwt> {
     // dtoからemailを取り出してemailに対応するユーザーが存在するのか検証
+    // findUnique：単一のデータ取得する、該当しない場合はnull
+    // findFirst：条件に一致する最初のレコードを取得
+    // findMany: 条件に一致するすべてのレコードを取得
     const user = await this.prisma.user.findFirst({
+      //prismaでデータを抽出するにはwhereを使用する
       where: {
         email: dto.email,
       },
