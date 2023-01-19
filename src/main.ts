@@ -7,6 +7,8 @@ import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // auth.dto.tsで使用するvalidatorの機能を有効化する
+  // whitelist:trueはdtoに含まれないフィールド（dtoで定義されているemail,password以外のニックネームが送られてきたときに、省いてくれる）
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.enableCors({
     credentials: true,
