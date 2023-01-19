@@ -27,7 +27,7 @@ export class AuthService {
     // 受け取ったemailとハッシュ化されたpasswordをPrismaServiceのメソッドを使って、データベースにクリエイトしていく
     // 例外処理トライキャッチ
     try {
-      //prismaサービスのメソッドを呼び出し、prisma/schema.prismaのuserテーブルに対応している
+      //prismaサービスのメソッドを呼び出し、prisma/schema.prismaのuserテーブルに対応している。
       //createをつけることでここにデータを入れられる
       await this.prisma.user.create({
         // dataというフィールドを作ってemailとpasswordを渡す
@@ -58,7 +58,7 @@ export class AuthService {
   // 引数でemailとpasswordをAuthのdtoとして受け取れるようにする
   async login(dto: AuthDto): Promise<Jwt> {
     // dtoからemailを取り出してemailに対応するユーザーが存在するのか検証
-    const user = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findFirst({
       where: {
         email: dto.email,
       },
