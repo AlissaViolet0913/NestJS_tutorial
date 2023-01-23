@@ -33,7 +33,7 @@ export class AuthService {
         // dataというフィールドを作ってemailとpasswordを渡す
         data: {
           email: dto.email,
-          hasedPassword: hashed,
+          hashedPassword: hashed,
         },
       });
       //   成功した場合はメッセージで「ok」を出す
@@ -73,7 +73,7 @@ export class AuthService {
     // dtoで渡されてきた平文のpasswordとデータベースの中にあるhase化されたpasswordと一致するか検証
     // bcrypt.compare()メソッドを利用。第1引数は平文、第2引数はハッシュ化されたpassword
     // 一致する場合はisValidがtrueになる
-    const isValid = await bcrypt.compare(dto.password, user.hasedPassword);
+    const isValid = await bcrypt.compare(dto.password, user.hashedPassword);
     // 一致しない場合
     if (!isValid) throw new ForbiddenException('Email or password incorrect');
     // 一致した場合
@@ -98,7 +98,7 @@ export class AuthService {
     // JWTサービスで提供されているsignAsync()メソッド
     const token = await this.jwt.signAsync(payload, {
       // 有効期限、この場合は5分
-      expiresIn: '5m',
+      expiresIn: '120m',
       secret: secret,
     });
 

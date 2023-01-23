@@ -8,9 +8,7 @@ import {
   Req,
   Get,
 } from '@nestjs/common';
-import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { Request, Response } from 'express';
-import { retryWhen } from 'rxjs';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 // 型のインポート
@@ -20,6 +18,11 @@ import { Csrf, Msg } from './interfaces/auth.interface';
 export class AuthController {
   // AuthServiceをDIするためにconstructorを追加
   constructor(private readonly authService: AuthService) {}
+
+  @Get('/csrf')
+  getCsrfToken(@Req() req: Request): Csrf {
+    return { csrfToken: req.csrfToken() };
+  }
 
   // ユーザーを新規登録するエンドポイントの作成、postメソッド、signUp関数
   @Post('signup')
