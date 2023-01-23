@@ -24,9 +24,9 @@ model User {
 model Task {
   id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAr DateTime @updatedAt
+  updatedAt DateTime @updatedAt
   title String
   description String?
-  userId Int 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)  
 }

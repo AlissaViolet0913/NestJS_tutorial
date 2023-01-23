@@ -19,16 +19,16 @@ export class UserController {
 
   //   ログインしているユーザーのオブジェクトを取得エンドポイント
   @Get()
-  //   OmitでUser型からhashedPasswordの型を取り除いてものを配置
+  // OmitでUser型からhashedPasswordの型を取り除いてものを配置
   // Requestのデータ型はexpressからimportしている（標準のものを使用）が、
   // 今回カスタマイズしているUser型に対応したデーター型が存在しないので、
   // カスタムで追加する（ディレクトリを追加し、そこで行う（suctom.d.ts））
+  // jwt.strategy.tsのreturn userにアクセスしてそのまま返す
   getLoginUser(@Req() req: Request): Omit<User, 'hashedPassword'> {
-    // jwt.strategy.tsのreturn userにアクセスしてそのまま返す
     return req.user;
   }
-  // ニックネームをアップデートするためのエンドポイント
 
+  // ニックネームをアップデートするためのエンドポイント
   @Patch()
   updateUser(
     // リクエストとリクエストボディーを引数で受け取る

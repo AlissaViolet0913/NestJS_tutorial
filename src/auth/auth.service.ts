@@ -98,7 +98,7 @@ export class AuthService {
     // JWTサービスで提供されているsignAsync()メソッド
     const token = await this.jwt.signAsync(payload, {
       // 有効期限、この場合は5分
-      expiresIn: '5m',
+      expiresIn: '120m',
       secret: secret,
     });
 
