@@ -15,18 +15,26 @@ async function bootstrap() {
     origin: ['http://localhost:3000'],
   });
   app.use(cookieParser());
-  // app.use(
-  //   csurf({
-  //     cookie: {
-  //       httpOnly: true,
-  //       sameSite: 'none',
-  //       secure: false,
-  //     },
-  //     value: (req: Request) => {
-  //       return req.header('csrf-token');
-  //     },
-  //   }),
-  // );
-  await app.listen(3005);
+  app.use(
+    csurf({
+      // cookieの設定（set-cookieの部分）
+      cookie: {
+        // secretキーはjavascriptから読み込まれたくないのでtrue
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+      },
+      // valueにクライアントからリクエストヘッダーで送られてきたcsrfを渡す
+      // ⇒CSRFのライブラリの中でcookieから受け取ったsecretをハッシュにかけてCSRFtokenを作成
+      // ⇒生成したものとヘッダーで送られてきたCSRTtokenが一致するのか自動的に検証してくれる
+      value: (req: Request) => {
+        // リクエストヘッダーにcsrftokenを付与した状態でサーバーサイドに渡されるので
+        // サーバーサイドで読み込む処理
+        return req.header('csrf-token');
+      },
+    }),
+  );
+  // 本番環境で使用するもの：process.env.PORT 、ない場合：3005を認識
+  await app.listen(process.env.PORT || 3005);
 }
 bootstrap();
