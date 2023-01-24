@@ -19,8 +19,10 @@ export class AuthController {
   // AuthServiceをDIするためにconstructorを追加
   constructor(private readonly authService: AuthService) {}
 
+  // auth/csrfにGETでアクセスしたときにcsrftokenを返却するエンドポイント
   @Get('/csrf')
   getCsrfToken(@Req() req: Request): Csrf {
+    // csrfTokenの名前をつけて渡す
     return { csrfToken: req.csrfToken() };
   }
 
@@ -51,7 +53,7 @@ export class AuthController {
     res.cookie('access_token', jwt.accessToken, {
       httpOnly: true,
       // secureはtrueにしなくちゃいけないんだけど、デプロイのときにhttpsにする必要があるので現段階はfalse
-      secure: false,
+      secure: true,
       sameSite: 'none',
       path: '/',
     });
@@ -66,7 +68,7 @@ export class AuthController {
     // ''空をセットすることでcoookieをリセットする、postmanの下部にあるcookiesのところのValueが空になる
     res.cookie('access_token', '', {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'none',
       path: '/',
     });
